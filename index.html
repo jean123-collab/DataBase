@@ -1,1 +1,142 @@
-test 
+Voici un code Python avancé pour réaliser le projet mentionné précédemment. Ce programme met en œuvre un tirage de cadeaux interactif avec des règles spéciales.
+
+
+---
+
+Code Python : Jeu des Cadeaux de Noël
+
+import random
+from datetime import datetime
+
+# Initialisation des données
+print("Bienvenue au Jeu des Cadeaux de Noël ! 🎄🎁\n")
+
+# Étape 1 : Entrer les participants
+participants = []
+while len(participants) < 3:
+    participants = input("Entrez les noms des participants (séparés par une virgule) : ").split(',')
+    participants = [p.strip() for p in participants if p.strip()]
+    if len(participants) < 3:
+        print("❌ Il faut au moins 3 participants. Veuillez réessayer.")
+
+# Étape 2 : Définir les cadeaux
+cadeaux = ["Chocolats", "Livre", "Montre", "Jeux vidéo"]
+print("\nVoici la liste des cadeaux prédéfinis :")
+print(", ".join(cadeaux))
+ajouter_cadeaux = input("Souhaitez-vous ajouter des cadeaux personnalisés ? (oui/non) : ").strip().lower()
+
+if ajouter_cadeaux == "oui":
+    while True:
+        ajout = input('Entrez un cadeau personnalisé et sa quantité (exemple : "Vacances, 1") ou "stop" pour terminer : ')
+        if ajout.lower() == "stop":
+            break
+        try:
+            cadeau, quantite = ajout.split(',')
+            cadeaux.extend([cadeau.strip()] * int(quantite.strip()))
+        except ValueError:
+            print("❌ Format incorrect. Veuillez suivre l'exemple : 'Vacances, 1'.")
+
+# Étape 3 : Ajouter un cadeau bonus
+cadeau_bonus = None
+ajout_bonus = input("\nSouhaitez-vous ajouter un cadeau bonus ? (oui/non) : ").strip().lower()
+if ajout_bonus == "oui":
+    cadeau_bonus = input("Entrez le nom du cadeau bonus : ").strip()
+
+# Étape 4 : Tirage au sort
+random.shuffle(cadeaux)
+if len(cadeaux) < len(participants):
+    print("\n⚠️ Attention : Il y a moins de cadeaux que de participants. Certains n'en recevront pas !")
+
+tirage = {}
+cadeaux_restants = cadeaux[:]
+
+for participant in participants:
+    if cadeaux_restants:
+        cadeau = random.choice(cadeaux_restants)
+        tirage[participant] = cadeau
+        cadeaux_restants.remove(cadeau)
+    else:
+        tirage[participant] = None
+
+# Étape 5 : Déterminer le Grinch
+grinch = random.choice(participants)
+tirage[grinch] = "A volé un cadeau !"
+
+# Étape 6 : Attribuer le cadeau bonus
+if cadeau_bonus and participants:
+    gagnant_bonus = random.choice(participants)
+    print(f"\n🎉 Le cadeau bonus '{cadeau_bonus}' est attribué à {gagnant_bonus} ! 🎉")
+    tirage[gagnant_bonus] += f" et {cadeau_bonus}"
+
+# Étape 7 : Afficher les résultats
+print("\n********************************************************")
+print("🎁 Résultats du Jeu des Cadeaux 🎁")
+print("********************************************************")
+
+for participant, cadeau in tirage.items():
+    if cadeau:
+        print(f"{participant} a reçu : {cadeau}")
+    else:
+        print(f"{participant} n'a pas reçu de cadeau cette fois...")
+
+print(f"\n🎅 Le Grinch est {grinch}, qui a volé un cadeau ! 🎅")
+
+# Étape 8 : Exportation
+export = input("\nSouhaitez-vous exporter les résultats dans un fichier texte ? (oui/non) : ").strip().lower()
+if export == "oui":
+    with open("resultats_cadeaux_noel.txt", "w") as fichier:
+        fichier.write("🎁 Résultats du Jeu des Cadeaux de Noël 🎁\n\n")
+        for participant, cadeau in tirage.items():
+            fichier.write(f"{participant} : {cadeau}\n")
+        fichier.write(f"\n🎅 Le Grinch était : {grinch}\n")
+    print("📁 Les résultats ont été exportés dans 'resultats_cadeaux_noel.txt'.")
+
+print("\n🎄 Joyeux Noël à tous ! 🎄")
+
+
+---
+
+Fonctionnalités du programme :
+
+1. Gestion des entrées :
+
+Participants et cadeaux ajoutés dynamiquement.
+
+Vérification des formats et des quantités.
+
+
+
+2. Tirage au sort :
+
+Distribution aléatoire des cadeaux.
+
+Gestion du "Grinch" (vol de cadeau).
+
+Attribution d'un cadeau bonus optionnel.
+
+
+
+3. Affichage clair :
+
+Résultats formatés avec des décorations de Noël.
+
+
+
+4. Exportation :
+
+Sauvegarde des résultats dans un fichier texte.
+
+
+
+5. Interactivité :
+
+Questions dynamiques pour personnaliser le tirage.
+
+
+
+
+
+---
+
+Essayez ce code pour un exercice interactif et festif !
+
